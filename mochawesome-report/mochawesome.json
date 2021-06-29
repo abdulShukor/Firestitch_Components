@@ -1,0 +1,100 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-06-28T01:40:21.551Z",
+    "end": "2021-06-28T01:40:34.615Z",
+    "duration": 13064,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "8d79a3cb-6729-4f59-bc9d-4d654c21118b",
+      "title": "",
+      "fullFile": "cypress/integration/examples/Test1.js",
+      "file": "cypress/integration/examples/Test1.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "83107e17-789a-4fb2-a21f-0fa5885b74e9",
+          "title": "My First Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Does not do much!",
+              "fullTitle": "My First Test Does not do much!",
+              "timedOut": null,
+              "duration": 9837,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://components.firestitch.com/\");\ncy.get('[fxlayoutalign=\"start center\"] > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click();\ncy.get(':nth-child(2) > .item-content > .item-labels > .label').click(); //  cy.findByText('Single Line Input').eq(1)\nlet name = cy.iframe().findByText('Install');\nconsole.log(name); // cy.wait(7000)\ncy.frameLoaded('.component-iframe');\ncy.iframe().find(\"#mat-input-0\").type(\"adfa\");\ncy.iframe().find('#mat-input-1').type(\"asd\");\ncy.iframe().find('#mat-input-2').type(\"asd\");\ncy.iframe().find('#mat-input-3').type(\"asd\");\ncy.iframe().find('#mat-input-4').should('be.disabled'); //  cy.iframe().find('#mat-input-4').type(\"asd\")\ncy.iframe().find('#mat-input-5').type(\"asd\");\ncy.iframe().find('#mat-input-6').type(\"asd\");\ncy.iframe().find('#mat-input-8').type(\"asd\");\ncy.iframe().find('#mat-input-7').type(\"asd\");\ncy.iframe().find('#mat-hint-1').then(function (text) {\n  cy.log(text.text());\n});",
+              "err": {},
+              "uuid": "2e2b3459-c8e2-4a41-901f-e4a1cc57e864",
+              "parentUUID": "83107e17-789a-4fb2-a21f-0fa5885b74e9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2e2b3459-c8e2-4a41-901f-e4a1cc57e864"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 9837,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": null,
+      "version": "5.2.0"
+    }
+  }
+}

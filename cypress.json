@@ -1,0 +1,10 @@
+{
+    "projectId": "js6tf6",
+    "reportter": "mochawesome",
+    "defaultCommandTimeout":7000,
+    "env" :
+    {
+        "url":"http://input.components.firestitch.com/"
+    }
+}
+
