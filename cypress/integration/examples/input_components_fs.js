@@ -1,6 +1,5 @@
 /// <reference types="Cypress" />
 /// <reference types="cypress-iframe" />
-require("cypress-xpath");
 
 describe("input.components.firestitch", () => {
   it("Single Line Input!", () => {
@@ -8,6 +7,7 @@ describe("input.components.firestitch", () => {
 
     // Single Line Input
     // cy.get("#mat-input-0").should('have.value', '')
+
     cy.get("#mat-input-0").type(
       "fgdddfgtrergfgsdglkhcvzjxkvljzxcklvjzxklcvjzxklcvjz"
     );
