@@ -2,10 +2,11 @@
 /// <reference types="cypress-iframe" />
 
 describe("address_components_firestitch", () => {
-  it("Address Picker!", () => {
+  it.only("Address Picker!", () => {
     cy.visit("http://address.components.firestitch.com/");
 
-    cy.get("#mat-input-0").type("Toronto");
+    //Location
+    cy.get(".mat-input-element").eq("0").type("Toronto");
     cy.contains("Toronto, ON, Canada").click();
     cy.contains("Save").dblclick();
     cy.contains("Save").should("be.disabled");
@@ -14,36 +15,57 @@ describe("address_components_firestitch", () => {
     //Dialog box
     cy.get(".mat-form-field-infix.ng-tns-c108-0").click();
     cy.contains("Apply").should("be.disabled");
-    cy.get("#mat-input-27").dblclick().type("215 Markham Road");
-
-    cy.get("#mat-input-21").dblclick().type("2550 Lawrence");
-    cy.get("#mat-input-22").dblclick().type("1470 Midland");
-    cy.get("#mat-input-26").dblclick().type("M1J 3C4");
+    cy.get(".mat-input-element").eq("21").dblclick().type("215 Markham Road");
+    cy.get(".mat-input-element").eq("22").dblclick().type("2550 Lawrence");
+    cy.get(".mat-input-element").eq("23").dblclick().type("1470 Midland");
+    cy.get(".mat-input-element").eq("27").dblclick().type("M1J 3C4");
 
     //Dialog box require fields
-    // City require field
-    cy.get("#mat-input-23").should("have.prop", "required");
+    cy.get(".mat-input-element").eq("24").should("have.prop", "required");
     // Country require field
-    cy.get("#mat-input-24").should("have.prop", "required");
+    cy.get(".mat-input-element").eq("25").should("have.prop", "required");
     //Province require field
-    cy.get("#mat-input-25").should("have.prop", "required");
-    //cy.scrollTo('bottom')
+    cy.get(".mat-input-element").eq("26").should("have.prop", "required");
 
     // assertion
-    cy.get("#mat-input-23").should("have.value", "Toronto");
-    cy.get("#mat-input-24").should("have.value", "Ontario");
-    cy.get("#mat-input-25").should("have.value", "Canada");
+    cy.get(".mat-input-element").eq("24").should("have.value", "Toronto");
+    cy.get(".mat-input-element").eq("25").should("have.value", "Ontario");
+    cy.get(".mat-input-element").eq("26").should("have.value", "Canada");
 
     // Google Map scrolling up and down
     cy.contains("Google").scrollIntoView();
     cy.get("[title='Zoom in']").click();
     cy.get(" [title='Zoom out']").click();
-    cy.get("#mat-input-27").scrollIntoView();
+    cy.get(".mat-input-element").eq("21").scrollIntoView();
+
 
     // buttons
-    cy.contains("Center Address");
+    cy.contains("Center Address").click();
     cy.contains("Cancel");
-    cy.contains("Apply").click();
+    cy.contains("Apply").dblclick();
+
+    // getting text
+    cy.wait(3000)
+    cy.get(".mat-form-field-infix.ng-tns-c108-0").then(function (text) {
+      cy.log(text.text());
+    });
+
+    //cancel button
+    cy.get(".mat-form-field-infix.ng-tns-c108-0").click()
+    cy.contains("Cancel").click()
+    cy.wait(3000)
+
+    // negative tests 
+    cy.get(".mat-form-field-infix.ng-tns-c108-0").click();
+    cy.get(".mat-input-element").eq("24").clear()
+    cy.get(".mat-input-element").eq("25").clear()
+    cy.get(".mat-input-element").eq("26").clear()
+    cy.contains("Apply").dblclick();
+
+    cy.contains("Changes not saved. Please review errors highlighted in red").then(function (text) {
+      cy.log(text.text());
+    });
+
   });
 
   it(" Confirmation Address Picker!", () => {
@@ -118,11 +140,16 @@ describe("address_components_firestitch", () => {
     });
   });
 
+  it("Disabled and Readonly addresses!", () => {
+    cy.contains("Disabled and Readonly addresses").click().should("be.disabled");
+  });
+
   it("Address Region, no validation, horizontal!", () => {
     cy.get("#mat-input-17").click().type("Canada");
     cy.contains("Canada").click();
     cy.get("#mat-input-5").click().type("Ontario");
     cy.contains("Ontario").click();
+
   });
 
   it("Address Region, pre-filled, horizontal stretched!", () => {
