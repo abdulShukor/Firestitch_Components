@@ -2,14 +2,14 @@
   "stats": {
     "suites": 1,
     "tests": 1,
-    "passes": 1,
+    "passes": 0,
     "pending": 0,
-    "failures": 0,
-    "start": "2021-06-28T01:40:21.551Z",
-    "end": "2021-06-28T01:40:34.615Z",
-    "duration": 13064,
+    "failures": 1,
+    "start": "2021-07-09T21:37:19.282Z",
+    "end": "2021-07-09T21:37:55.209Z",
+    "duration": 35927,
     "testsRegistered": 1,
-    "passPercent": 100,
+    "passPercent": 0,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "8d79a3cb-6729-4f59-bc9d-4d654c21118b",
+      "uuid": "3cc02a0d-ffff-4a97-99d5-d96b318a0093",
       "title": "",
       "fullFile": "cypress/integration/examples/Test1.js",
       "file": "cypress/integration/examples/Test1.js",
@@ -27,40 +27,44 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "83107e17-789a-4fb2-a21f-0fa5885b74e9",
-          "title": "My First Test",
+          "uuid": "013fa147-6fa0-4c34-9953-bf73614635a9",
+          "title": "Testing Querry selector ",
           "fullFile": "",
           "file": "",
           "beforeHooks": [],
           "afterHooks": [],
           "tests": [
             {
-              "title": "Does not do much!",
-              "fullTitle": "My First Test Does not do much!",
+              "title": "Address!",
+              "fullTitle": "Testing Querry selector  Address!",
               "timedOut": null,
-              "duration": 9837,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
+              "duration": 29105,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
               "pending": false,
               "context": null,
-              "code": "cy.visit(\"https://components.firestitch.com/\");\ncy.get('[fxlayoutalign=\"start center\"] > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click();\ncy.get(':nth-child(2) > .item-content > .item-labels > .label').click(); //  cy.findByText('Single Line Input').eq(1)\nlet name = cy.iframe().findByText('Install');\nconsole.log(name); // cy.wait(7000)\ncy.frameLoaded('.component-iframe');\ncy.iframe().find(\"#mat-input-0\").type(\"adfa\");\ncy.iframe().find('#mat-input-1').type(\"asd\");\ncy.iframe().find('#mat-input-2').type(\"asd\");\ncy.iframe().find('#mat-input-3').type(\"asd\");\ncy.iframe().find('#mat-input-4').should('be.disabled'); //  cy.iframe().find('#mat-input-4').type(\"asd\")\ncy.iframe().find('#mat-input-5').type(\"asd\");\ncy.iframe().find('#mat-input-6').type(\"asd\");\ncy.iframe().find('#mat-input-8').type(\"asd\");\ncy.iframe().find('#mat-input-7').type(\"asd\");\ncy.iframe().find('#mat-hint-1').then(function (text) {\n  cy.log(text.text());\n});",
-              "err": {},
-              "uuid": "2e2b3459-c8e2-4a41-901f-e4a1cc57e864",
-              "parentUUID": "83107e17-789a-4fb2-a21f-0fa5885b74e9",
+              "code": "cy.visit(Cypress.env(\"url\")); // document.querySelector('mat-dialog-container').querySelector('.city')\ncy.get(\"[data-cy='address-picker'\").should(\"be.exist\");\ncy.get(\"[data-cy='confirmation-address-picker'\").should(\"be.exist\");\ncy.get(\"[data-cy='address-form'\").should(\"be.exist\");\ncy.get(\"[data-cy='two-line-format'\").should(\"be.exist\");\ncy.get(\"[data-cy='formate-examples'\").should(\"be.exist\");\ncy.get(\"[data-cy='address-disabled-or-readonly'\").should(\"be.exist\");\ncy.get(\"[data-cy='address-region-no-validation'\").should(\"be.exist\");\ncy.get(\"[data-cy='address-region-prefilled'\").should(\"be.exist\");\ncy.get(\"[data-cy='address-region-required'\").should(\"be.exist\");\ncy.get(\"[data-cy='address-region-disabled'\").should(\"be.exist\");\ncy.get(\".ng-tns-c213-0  .mat-input-element\").type(\"Toronto\"); // cy.contains(\"Toronto, ON, Canada\").click();\n// cy.contains(\"Save\").dblclick();\n// cy.contains(\"Save\").should(\"be.disabled\");\ncy.get(\".mat-autocomplete-panel> *\").each(($el, index, $list) => {\n  const location = $el.text();\n  const LocationToSelect = \"Toronto, ON, CA\";\n  if (location === LocationToSelect) {\n    cy.wrap().$el.click();\n  }\n}); // cy.get(\".ng-tns-c213-0  .mat-input-element\").type(\"Toronto\");\n// cy.contains(\"Toronto, ON, Canada\").click();\ncy.get(\".ng-tns-c213-0 .editable\").click();\ncy.get(\"mat-dialog-container .street\").dblclick().type(\"215 Markham Road\");\ncy.get(\"mat-dialog-container .address2\").dblclick().type(\"2550 Lawrence\");\ncy.get(\"mat-dialog-container .address3\").dblclick().type(\"1470 Midland\");\ncy.get(\"mat-dialog-container  .city\").clear();\ncy.get(\"mat-dialog-container  .country\").click().clear();\ncy.get(\"mat-dialog-container  .zip\").dblclick().type(\"M1J 3C4\");",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 7000ms: Expected to find element: `[data-cy='address-picker'`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 7000ms: Expected to find element: `[data-cy='address-picker'`, but never found it.\n    at Context.eval (http://address.components.firestitch.com/__cypress/tests?p=cypress\\integration\\examples\\Test1.js:105:41)",
+                "diff": null
+              },
+              "uuid": "bd5a3db4-a708-43a1-bb17-6f8accfff879",
+              "parentUUID": "013fa147-6fa0-4c34-9953-bf73614635a9",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
-          "passes": [
-            "2e2b3459-c8e2-4a41-901f-e4a1cc57e864"
+          "passes": [],
+          "failures": [
+            "bd5a3db4-a708-43a1-bb17-6f8accfff879"
           ],
-          "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 9837,
+          "duration": 29105,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
@@ -93,7 +97,9 @@
       "version": "6.2.2"
     },
     "marge": {
-      "options": null,
+      "options": {
+        "configFile": "reporter-config.json"
+      },
       "version": "5.2.0"
     }
   }

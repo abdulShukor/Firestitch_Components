@@ -1,10 +1,13 @@
 {
-    "projectId": "js6tf6",
-    "reportter": "mochawesome",
-    "defaultCommandTimeout":7000,
-    "env" :
-    {
-        "url":"http://input.components.firestitch.com/"
-    }
-}
+  "projectId": "js6tf6",
+  "reportter": "mochawesome",
+  "defaultCommandTimeout": 7000,
+  "env": {
+    "url": "http://localhost:8000/"
+  },
 
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporter-config.json"
+  }
+}
