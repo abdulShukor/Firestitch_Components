@@ -1,4 +1,5 @@
 //import addresspicker_PO from "../../support/pageObjects/fs-Adress-Picker/addresspicker_PO";
+import addressPicker from "../pageObjects/addressPicker";
 /// <reference types="Cypress" />
 /// <reference types="cypress-iframe" />
 
@@ -6,16 +7,15 @@ describe("Address_Picker_components_firestitch", () => {
   // beforeEach(function () {
   //   cy.visit(Cypress.env("url"));
   // });
-
-  it("Address Picker: Enter location, check save button, get hint text, log & validate the Saved text.", () => {
+  it("Address Picker:Test case 1.", () => {
     cy.visit(Cypress.env("url"));
+    const addPicker = new addressPicker();
+    // cy.visit("http://address.components.firestitch.com/");
     //Location
-    cy.get("[data-cy='address-picker'] fs-address-autocomplete input")
-      .should("be.empty")
-      .and("have.prop", "required");
-    cy.get("[data-cy='address-picker'] fs-address-autocomplete input").type(
-      "Toronto, ON"
-    );
+
+    addPicker.LocationInput().should("be.empty").and("have.prop", "required");
+
+    addPicker.LocationInput().type("Toronto, ON");
     cy.contains("Toronto, ON, Canada").click();
 
     //iterating over the autocomplete list
@@ -26,42 +26,38 @@ describe("Address_Picker_components_firestitch", () => {
     //     cy.location.dblclick();
     //   }
     // });
+  });
 
-    //Line-1
-    cy.get("[data-cy='address-picker']  .editable .line-1").then(function (
-      text
-    ) {
+  it("Address Picker:Test case 2.", () => {
+    const addPicker = new addressPicker();
+
+    addPicker.EditableAddressLineOne().then(function (text) {
       const location_city = text.text();
       cy.log(location_city);
 
       if (location_city === "Toronto") {
-        cy.log("Test Passed:", location_city === "Toronto");
+        cy.log("Test Passed:");
       } else {
         cy.contains("Test Failed:location_city does not match");
       }
     });
 
     //Line-2
-    cy.get("[data-cy='address-picker']  .editable .line-2").then(function (
-      text
-    ) {
+    addPicker.EditableAddressLineTwo().then(function (text) {
       const location_region_province = text.text();
       cy.log(location_region_province);
       if (location_region_province === "ONCA") {
-        cy.log("Test Passed:", location_region_province === "ONCA");
+        cy.log("Test Passed:");
       } else {
         cy.contains("Test Failed:location_region_province does not match:");
       }
     });
 
-    cy.get("[data-cy='address-picker']  .editable ").then(function (text) {
+    addPicker.EditableAddressTwoLineAddress().then(function (text) {
       const location_city_region_province_two_line_formate = text.text();
       cy.log(location_city_region_province_two_line_formate);
       if (location_city_region_province_two_line_formate === "TorontoONCA") {
-        cy.log(
-          "Test Passed:",
-          location_city_region_province_two_line_formate === "TorontoONCA"
-        );
+        cy.log("Test Passed:");
       } else {
         cy.contains(
           "Test Failed:location_city_region_province_two_line_formate does not match:"
@@ -70,193 +66,189 @@ describe("Address_Picker_components_firestitch", () => {
     });
 
     //Oneline Address
-    cy.get("[data-cy='address-picker'] .oneline").then(function (text) {
+    addPicker.SelectOneLineAddress().then(function (text) {
       const one_Line_address = text.text();
       cy.log(one_Line_address);
       if (one_Line_address === "TorontoONCA") {
-        cy.log("Test Passed:", one_Line_address === "TorontoONCA");
+        cy.log("Test Passed:");
       } else {
         cy.contains("Test Failed:one_Line_address does not match:");
       }
     });
-
+  });
+  it("Address Picker:Test case 3.", () => {
+    const addPicker = new addressPicker();
     // "Save button" clicking and asserting to be disable after clicking
-    cy.get("[data-cy='address-picker'] mat-card  button").dblclick();
-    cy.get("[data-cy='address-picker'] mat-card  button").should("be.disabled");
-
-    //hint text
-    cy.get("[data-cy='address-picker'] mat-form-field .mat-hint").then(
-      function (text) {
-        cy.log(text.text());
-      }
-    );
+    addPicker.SaveButton().dblclick();
+    addPicker.SaveButton().should("be.disabled");
 
     cy.contains("Saved").then(function (text) {
       cy.log(text.text());
     });
+
+    //hint text
+    addPicker.AddPickerHint().then(function (text) {
+      cy.log(text.text());
+    });
   });
 
-  it("Address Picker: Enter street, address 2 & 3, and zip code.", () => {
+  it("Address Picker:Test case 4.", () => {
     //dialog box input values
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.get("mat-dialog-container .street").dblclick().type("215 Markham Road");
-    cy.get("mat-dialog-container .address2").dblclick().type("2550 Lawrence");
-    cy.get("mat-dialog-container .address3").dblclick().type("1470 Midland");
-    cy.get("mat-dialog-container  .zip").dblclick().type("M1J 3C4");
+    const addPicker = new addressPicker();
+    addPicker.EditableAddressTwoLineAddress().click();
+    addPicker.ContainerStreet().dblclick().type("215 Markham Road");
+    addPicker.ContainerAddress2().dblclick().type("2550 Lawrence");
+    addPicker.ContainerAddress3().dblclick().type("1470 Midland");
+    addPicker.ContainerZip().dblclick().type("M1J 3C4");
   });
 
   //Asserting the require fields
-  it("Address Picker:  Asserting require prop and value for City, Country, and Region.", () => {
-    cy.get("mat-dialog-container  .city input").should("have.prop", "required");
-    cy.get("mat-dialog-container [name='region'] input").should(
-      "have.prop",
-      "required"
-    );
-    cy.get("mat-dialog-container  .country input").should(
-      "have.prop",
-      "required"
-    );
+  it("Address Picker:Test case 5.", () => {
+    const addPicker = new addressPicker();
+    addPicker.ContainerCity().should("have.prop", "required");
+    addPicker.ContainerRegion().should("have.prop", "required");
+    addPicker.ContainerCountr().should("have.prop", "required");
 
-    //Asserting the input values
-    cy.log("checking input values");
-    cy.get("mat-dialog-container  .city input").should("have.value", "Toronto");
-
-    cy.get("mat-dialog-container [name='region'] input").should(
-      "have.value",
-      "Ontario"
-    );
-    cy.get("mat-dialog-container  .country input").should(
-      "have.value",
-      "Canada"
-    );
+    //validating the input values
+    it("Address Picker:Test case 6.", () => {
+      const addPicker = new addressPicker();
+      cy.log("checking input values");
+      addPicker.ContainerCity().should("have.value", "Toronto");
+      addPicker.ContainerRegion.should("have.value", "Ontario");
+      addPicker.ContainerCountr.should("have.value", "Canada");
+    });
   });
 
-  it("Address Picker: Zoom in & out, and scroll to view.", () => {
+  it("Address Picker:Test case 7.", () => {
+    const addPicker = new addressPicker();
     // Google Map scrolling up and down
     cy.contains("Google").scrollIntoView();
-    cy.get("[title='Zoom in']").click();
-    cy.get(" [title='Zoom out']").click();
-    cy.get("mat-dialog-container .street").scrollIntoView();
+    addPicker.ContainerZoomIn().click();
+    addPicker.ContainerZoomOut().click();
+    addPicker.ContainerStreet().scrollIntoView();
   });
 
-  it("Address Picker: performing an action on Center Address, Cancel, and  Apply buttons.", () => {
+  it("Address Picker:Test case 8.", () => {
     // dialog box buttons
-    //Center Address
-    cy.get(".mat-dialog-actions button:nth-child(2)").click();
-    //Cancel
-    cy.get(".mat-dialog-actions button:nth-child(3)");
-    //Apply
-    cy.get("mat-dialog-container [type='submit']").dblclick();
+    const addPicker = new addressPicker();
+    addPicker.ContainerCenterAddressButton().click();
+    addPicker.ContainerCancelButton();
+    addPicker.ContainerApplyButton().dblclick();
 
     // getting the address text
-    cy.wait(3000);
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").then(
-      function (text) {
+    it("Address Picker:Test 9.", () => {
+      const addPicker = new addressPicker();
+      cy.wait(3000);
+      addPicker.EditableAddressTwoLineAddress().then(function (text) {
         const address = text.text();
         const addressMatch =
           "215 Markham Road2550 Lawrence1470 MidlandTorontoONM1J 3C4CA";
         cy.log(address);
 
         if (address === addressMatch) {
-          cy.log("Test Passed:", address === addressMatch);
+          cy.log("Test Passed:");
         } else {
           cy.contains("address does not match:");
         }
-      }
-    );
-    cy.pause();
-
-    //dialog box Cancel button
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.contains("Cancel").click();
-    cy.wait(3000);
+      });
+      //dialog box Cancel button
+      addPicker.EditableAddressTwoLineAddress().click();
+      addPicker.ContainerCancelButton().click();
+      cy.wait(3000);
+    });
   });
 
-  it("Address Picker: Using assertion on City, Region, and Country.", () => {
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.get("mat-dialog-container  .city input").clear();
-    cy.get("mat-dialog-container [name='region'] input").clear();
-    cy.get("mat-dialog-container  .country input").clear();
-    cy.get("mat-dialog-container [name='region'] input").type("Ontario");
+  it("Address Picker:Test case 10.", () => {
+    const addPicker = new addressPicker();
+
+    addPicker.EditableAddressTwoLineAddress().click();
+    addPicker.ContainerCity().clear();
+    addPicker.ContainerRegion().clear();
+    addPicker.ContainerCountr().clear();
+    addPicker.ContainerRegion().type("Ontario");
     cy.contains("Ontario, Canada").click();
-    cy.get("mat-dialog-container  .country input").should(
-      "have.value",
-      "Canada"
-    );
-    cy.contains("Cancel").click();
+    addPicker.ContainerCountr().should("have.value", "Canada");
+    addPicker.ContainerCancelButton().click();
   });
-  it("Address Picker: Use assertion for negative tests cases on City, Region, Country.", () => {
+  it("Address Picker:Test case 11.", () => {
     // negative tests
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.get(".mat-dialog-container .city").clear();
-    cy.get(".mat-dialog-container .country").clear();
-    cy.get("mat-dialog-container [type='submit']").dblclick();
+    const addPicker = new addressPicker();
+
+    addPicker.EditableAddressTwoLineAddress().click();
+    addPicker.ContainerCity().clear();
+    addPicker.ContainerCountr().clear();
+    addPicker.ContainerApplyButton().dblclick();
     cy.contains(
       "Changes not saved. Please review errors highlighted in red"
     ).should("be.visible");
-    cy.get(".mat-dialog-actions button:nth-child(3)").click();
+    addPicker.ContainerCancelButton().click();
   });
-  it("Address Picker: pop-up window message 'You Have Unsaved Changes' editing street, asserting Title and Content.", () => {
+  it("Address Picker:Test case 12.", () => {
     //fs-modal-confirm pop up window massage "You Have Unsaved Changes"
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.get("mat-dialog-container .street").dblclick().clear();
-    cy.get("mat-dialog-container .street").dblclick().type("210 Markham Road");
-    cy.get(".cdk-overlay-backdrop").click({ force: true });
+    const addPicker = new addressPicker();
+    addPicker.EditableAddressTwoLineAddress().click();
+    addPicker.ContainerStreet().dblclick().clear();
+    addPicker.ContainerStreet().dblclick().type("210 Markham Road");
+    addPicker.ContainerOverlayBackdrop().click({ force: true });
 
-    //fs-modal-confirm Title
-    cy.get(".fs-modal-confirm .mat-dialog-title").should(
-      "have.text",
-      "You Have Unsaved Changes"
-    );
+    addPicker
+      .ContainerTwoTitleText()
+      .should("have.text", "You Have Unsaved Changes");
+    addPicker
+      .ContainerTwoContentText()
+      .should("have.text", "What would you like to do with your changes?");
 
-    //fs-modal-confirm Contnet
-    cy.get(".fs-modal-confirm .mat-dialog-content").should(
-      "have.text",
-      "What would you like to do with your changes?"
-    );
-  });
-
-  it("Address Picker: Use assertion on 'Save & Continue,Discard Changes & Continue and Review Changes'.", () => {
-    //fs-modal-confirm button "Save & Continue"
-    cy.get(".fs-modal-confirm .mat-primary")
+    addPicker
+      .ContainerTwoSaveChangeButton()
       .should("have.text", "Save & Continue")
       .click();
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").should(
-      "be.visible"
-    );
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").then(
-      function (text) {
-        const address_edited = text.text();
-        const address_match_with =
-          "210 Markham Road2550 Lawrence1470 MidlandTorontoONM1J 3C4CA";
-        if (address_edited == address_match_with) {
-          cy.log("Test Passed:", address_edited === address_match_with);
-        } else {
-          cy.log("Test Passed:", "does not match the address)");
-        }
-      }
-    );
+  });
 
-    //fs-modal-confirm button "Discard Changes & Continue "
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.get("mat-dialog-container .street").dblclick().clear();
-    cy.get("mat-dialog-container .street").dblclick().type("220 Markham Road");
-    cy.get(".cdk-overlay-backdrop").click({ force: true });
-    cy.get(".fs-modal-confirm [type='button']:nth-child(2)")
+  it("Address Picker:Test case 13.", () => {
+    //fs-modal-confirm button "Save & Continue"
+    const addPicker = new addressPicker();
+    cy.wait(2000);
+    addPicker.EditableAddressTwoLineAddress().should("be.visible");
+    addPicker.EditableAddressTwoLineAddress().then(function (text) {
+      const address_edited = text.text();
+      cy.log(address_edited);
+      const address_match_with =
+        "210 Markham Road2550 Lawrence1470 MidlandTorontoONM1J 3C4CA";
+      if (address_edited === address_match_with) {
+        cy.log("Test Passed:");
+      } else {
+        cy.log("Test Failed:", "does not match the address)");
+        cy.contains("does not match the address");
+      }
+    });
+  });
+
+  //fs-modal-confirm button "Discard Changes & Continue "
+  it("Address Picker:Test case 14.", () => {
+    const addPicker = new addressPicker();
+    addPicker.EditableAddressTwoLineAddress().click();
+    addPicker.ContainerStreet().dblclick().clear();
+    addPicker.ContainerStreet().dblclick().type("220 Markham Road");
+    addPicker.ContainerOverlayBackdrop().click({ force: true });
+    addPicker
+      .ContainerTwoDiscardChangesAndContinue()
       .should("have.text", "Discard Changes & Continue")
       .click();
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").should(
-      "be.visible"
-    );
+    addPicker.Container().should("be.visible");
+  });
 
-    //fs-modal-confirm button "Review Changes"
-    cy.get("[data-cy='address-picker'] fs-address-format.editable").click();
-    cy.get("mat-dialog-container .street").dblclick().clear();
-    cy.get("mat-dialog-container .street").dblclick().type("2100 Markham Road");
-    cy.get(".cdk-overlay-backdrop").click({ force: true });
-    cy.get(".fs-modal-confirm [type='button']:nth-child(3)")
+  //fs-modal-confirm button "Review Changes"
+  it("Address Picker:Test case 15.", () => {
+    const addPicker = new addressPicker();
+    addPicker.EditableAddressTwoLineAddress().click({ force: true });
+    addPicker.ContainerStreet().clear();
+    addPicker.ContainerStreet().type("2100 Markham Road");
+    addPicker.ContainerOverlayBackdrop().click({ force: true });
+    cy.wait(2000);
+    addPicker
+      .ContainerTwoSaveChangeButton()
       .should("have.text", "Review Changes")
       .click();
-    cy.get("mat-dialog-container").should("be.visible");
+    addPicker.Container().should("be.visible");
   });
 });

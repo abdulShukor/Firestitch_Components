@@ -9,7 +9,7 @@ describe("Disabled_Readonly_Address_Fs", () => {
       "[name='Disabled and Readonly addresses'] .line-1:nth-child(1)"
     ).then(function (text) {
       const first_line_address_text = text.text();
-      cy.log(first_line_address);
+      cy.log(first_line_address_text);
       const first_line_address = "CNTower";
       if (first_line_address_text === first_line_address) {
         cy.log("Test Passed:");
