@@ -1,5 +1,5 @@
 //import addresspicker_PO from "../../support/pageObjects/fs-Adress-Picker/addresspicker_PO";
-import addressPicker from "../pageObjects/addressPicker";
+import AddressPicker from "../pageObjects/AddressPicker";
 /// <reference types="Cypress" />
 /// <reference types="cypress-iframe" />
 
@@ -9,13 +9,11 @@ describe("Address_Picker_components_firestitch", () => {
   // });
   it("Address Picker:Test case 1.", () => {
     cy.visit(Cypress.env("url"));
-    const addPicker = new addressPicker();
+    const addPicker = new AddressPicker();
     // cy.visit("http://address.components.firestitch.com/");
-    //Location
 
-    addPicker.LocationInput().should("be.empty").and("have.prop", "required");
-
-    addPicker.LocationInput().type("Toronto, ON");
+    addPicker.locationInput().should("be.empty").and("have.prop", "required");
+    addPicker.locationInput().type("Toronto, ON");
     cy.contains("Toronto, ON, Canada").click();
 
     //iterating over the autocomplete list
@@ -29,9 +27,9 @@ describe("Address_Picker_components_firestitch", () => {
   });
 
   it("Address Picker:Test case 2.", () => {
-    const addPicker = new addressPicker();
+    const addPicker = new AddressPicker();
 
-    addPicker.EditableAddressLineOne().then(function (text) {
+    addPicker.editableAddressLineOne().then(function (text) {
       const location_city = text.text();
       cy.log(location_city);
 
@@ -42,8 +40,7 @@ describe("Address_Picker_components_firestitch", () => {
       }
     });
 
-    //Line-2
-    addPicker.EditableAddressLineTwo().then(function (text) {
+    addPicker.editableAddressLineTwo().then(function (text) {
       const location_region_province = text.text();
       cy.log(location_region_province);
       if (location_region_province === "ONCA") {
@@ -53,7 +50,7 @@ describe("Address_Picker_components_firestitch", () => {
       }
     });
 
-    addPicker.EditableAddressTwoLineAddress().then(function (text) {
+    addPicker.editableAddressTwoLineAddress().then(function (text) {
       const location_city_region_province_two_line_formate = text.text();
       cy.log(location_city_region_province_two_line_formate);
       if (location_city_region_province_two_line_formate === "TorontoONCA") {
@@ -65,8 +62,7 @@ describe("Address_Picker_components_firestitch", () => {
       }
     });
 
-    //Oneline Address
-    addPicker.SelectOneLineAddress().then(function (text) {
+    addPicker.selectOneLineAddress().then(function (text) {
       const one_Line_address = text.text();
       cy.log(one_Line_address);
       if (one_Line_address === "TorontoONCA") {
@@ -77,69 +73,63 @@ describe("Address_Picker_components_firestitch", () => {
     });
   });
   it("Address Picker:Test case 3.", () => {
-    const addPicker = new addressPicker();
-    // "Save button" clicking and asserting to be disable after clicking
-    addPicker.SaveButton().dblclick();
-    addPicker.SaveButton().should("be.disabled");
+    const addPicker = new AddressPicker();
+    addPicker.saveButton().dblclick();
+    addPicker.saveButton().should("be.disabled");
 
     cy.contains("Saved").then(function (text) {
       cy.log(text.text());
     });
 
-    //hint text
-    addPicker.AddPickerHint().then(function (text) {
+    addPicker.addPickerHint().then(function (text) {
       cy.log(text.text());
     });
   });
 
   it("Address Picker:Test case 4.", () => {
-    //dialog box input values
-    const addPicker = new addressPicker();
-    addPicker.EditableAddressTwoLineAddress().click();
-    addPicker.ContainerStreet().dblclick().type("215 Markham Road");
-    addPicker.ContainerAddress2().dblclick().type("2550 Lawrence");
-    addPicker.ContainerAddress3().dblclick().type("1470 Midland");
-    addPicker.ContainerZip().dblclick().type("M1J 3C4");
+    const addPicker = new AddressPicker();
+    addPicker.editableAddressTwoLineAddress().click();
+    addPicker.containerStreet().dblclick().type("215 Markham Road");
+    addPicker.containerAddress2().dblclick().type("2550 Lawrence");
+    addPicker.containerAddress3().dblclick().type("1470 Midland");
+    addPicker.containerZip().dblclick().type("M1J 3C4");
   });
 
-  //Asserting the require fields
   it("Address Picker:Test case 5.", () => {
-    const addPicker = new addressPicker();
-    addPicker.ContainerCity().should("have.prop", "required");
-    addPicker.ContainerRegion().should("have.prop", "required");
-    addPicker.ContainerCountr().should("have.prop", "required");
+    const addPicker = new AddressPicker();
+    addPicker.containerCity().should("have.prop", "required");
+    addPicker.containerRegion().should("have.prop", "required");
+    addPicker.containerCountr().should("have.prop", "required");
 
     //validating the input values
     it("Address Picker:Test case 6.", () => {
-      const addPicker = new addressPicker();
+      const addPicker = new AddressPicker();
       cy.log("checking input values");
-      addPicker.ContainerCity().should("have.value", "Toronto");
-      addPicker.ContainerRegion.should("have.value", "Ontario");
-      addPicker.ContainerCountr.should("have.value", "Canada");
+      addPicker.containerCity().should("have.value", "Toronto");
+      addPicker.containerRegion.should("have.value", "Ontario");
+      addPicker.containerCountr.should("have.value", "Canada");
     });
   });
 
   it("Address Picker:Test case 7.", () => {
-    const addPicker = new addressPicker();
-    // Google Map scrolling up and down
+    const addPicker = new AddressPicker();
     cy.contains("Google").scrollIntoView();
-    addPicker.ContainerZoomIn().click();
-    addPicker.ContainerZoomOut().click();
-    addPicker.ContainerStreet().scrollIntoView();
+    addPicker.containerZoomIn().click();
+    addPicker.containerZoomOut().click();
+    addPicker.containerStreet().scrollIntoView();
   });
 
   it("Address Picker:Test case 8.", () => {
-    // dialog box buttons
-    const addPicker = new addressPicker();
-    addPicker.ContainerCenterAddressButton().click();
-    addPicker.ContainerCancelButton();
-    addPicker.ContainerApplyButton().dblclick();
+    const addPicker = new AddressPicker();
+    addPicker.containerCenterAddressButton().click();
+    addPicker.containerCancelButton();
+    addPicker.containerApplyButton().dblclick();
 
     // getting the address text
     it("Address Picker:Test 9.", () => {
-      const addPicker = new addressPicker();
+      const addPicker = new AddressPicker();
       cy.wait(3000);
-      addPicker.EditableAddressTwoLineAddress().then(function (text) {
+      addPicker.editableAddressTwoLineAddress().then(function (text) {
         const address = text.text();
         const addressMatch =
           "215 Markham Road2550 Lawrence1470 MidlandTorontoONM1J 3C4CA";
@@ -151,65 +141,64 @@ describe("Address_Picker_components_firestitch", () => {
           cy.contains("address does not match:");
         }
       });
-      //dialog box Cancel button
-      addPicker.EditableAddressTwoLineAddress().click();
-      addPicker.ContainerCancelButton().click();
+      addPicker.editableAddressTwoLineAddress().click();
+      addPicker.containerCancelButton().click();
       cy.wait(3000);
     });
   });
 
   it("Address Picker:Test case 10.", () => {
-    const addPicker = new addressPicker();
+    const addPicker = new AddressPicker();
 
-    addPicker.EditableAddressTwoLineAddress().click();
-    addPicker.ContainerCity().clear();
-    addPicker.ContainerRegion().clear();
-    addPicker.ContainerCountr().clear();
-    addPicker.ContainerRegion().type("Ontario");
+    addPicker.editableAddressTwoLineAddress().click();
+    addPicker.containerCity().clear();
+    addPicker.containerRegion().clear();
+    addPicker.containerCountr().clear();
+    addPicker.containerRegion().type("Ontario");
     cy.contains("Ontario, Canada").click();
-    addPicker.ContainerCountr().should("have.value", "Canada");
-    addPicker.ContainerCancelButton().click();
+    addPicker.containerCountr().should("have.value", "Canada");
+    addPicker.containerCancelButton().click();
   });
   it("Address Picker:Test case 11.", () => {
     // negative tests
-    const addPicker = new addressPicker();
+    const addPicker = new AddressPicker();
 
-    addPicker.EditableAddressTwoLineAddress().click();
-    addPicker.ContainerCity().clear();
-    addPicker.ContainerCountr().clear();
-    addPicker.ContainerApplyButton().dblclick();
+    addPicker.editableAddressTwoLineAddress().click();
+    addPicker.containerCity().clear();
+    addPicker.containerCountr().clear();
+    addPicker.containerApplyButton().dblclick();
     cy.contains(
       "Changes not saved. Please review errors highlighted in red"
     ).should("be.visible");
-    addPicker.ContainerCancelButton().click();
+    addPicker.containerCancelButton().click();
   });
   it("Address Picker:Test case 12.", () => {
     //fs-modal-confirm pop up window massage "You Have Unsaved Changes"
-    const addPicker = new addressPicker();
-    addPicker.EditableAddressTwoLineAddress().click();
-    addPicker.ContainerStreet().dblclick().clear();
-    addPicker.ContainerStreet().dblclick().type("210 Markham Road");
-    addPicker.ContainerOverlayBackdrop().click({ force: true });
+    const addPicker = new AddressPicker();
+    addPicker.editableAddressTwoLineAddress().click();
+    addPicker.containerStreet().dblclick().clear();
+    addPicker.containerStreet().dblclick().type("210 Markham Road");
+    addPicker.containerOverlayBackdrop().click({ force: true });
 
     addPicker
-      .ContainerTwoTitleText()
+      .containerTwoTitleText()
       .should("have.text", "You Have Unsaved Changes");
     addPicker
-      .ContainerTwoContentText()
+      .containerTwoContentText()
       .should("have.text", "What would you like to do with your changes?");
 
     addPicker
-      .ContainerTwoSaveChangeButton()
+      .containerTwoSaveChangeButton()
       .should("have.text", "Save & Continue")
       .click();
   });
 
   it("Address Picker:Test case 13.", () => {
     //fs-modal-confirm button "Save & Continue"
-    const addPicker = new addressPicker();
+    const addPicker = new AddressPicker();
     cy.wait(2000);
-    addPicker.EditableAddressTwoLineAddress().should("be.visible");
-    addPicker.EditableAddressTwoLineAddress().then(function (text) {
+    addPicker.editableAddressTwoLineAddress().should("be.visible");
+    addPicker.editableAddressTwoLineAddress().then(function (text) {
       const address_edited = text.text();
       cy.log(address_edited);
       const address_match_with =
@@ -225,30 +214,30 @@ describe("Address_Picker_components_firestitch", () => {
 
   //fs-modal-confirm button "Discard Changes & Continue "
   it("Address Picker:Test case 14.", () => {
-    const addPicker = new addressPicker();
-    addPicker.EditableAddressTwoLineAddress().click();
-    addPicker.ContainerStreet().dblclick().clear();
-    addPicker.ContainerStreet().dblclick().type("220 Markham Road");
-    addPicker.ContainerOverlayBackdrop().click({ force: true });
+    const addPicker = new AddressPicker();
+    addPicker.editableAddressTwoLineAddress().click();
+    addPicker.containerStreet().dblclick().clear();
+    addPicker.containerStreet().dblclick().type("220 Markham Road");
+    addPicker.containerOverlayBackdrop().click({ force: true });
     addPicker
-      .ContainerTwoDiscardChangesAndContinue()
+      .containerTwoDiscardChangesAndContinue()
       .should("have.text", "Discard Changes & Continue")
       .click();
-    addPicker.Container().should("be.visible");
+    addPicker.container().should("be.visible");
   });
 
   //fs-modal-confirm button "Review Changes"
   it("Address Picker:Test case 15.", () => {
-    const addPicker = new addressPicker();
-    addPicker.EditableAddressTwoLineAddress().click({ force: true });
-    addPicker.ContainerStreet().clear();
-    addPicker.ContainerStreet().type("2100 Markham Road");
-    addPicker.ContainerOverlayBackdrop().click({ force: true });
+    const addPicker = new AddressPicker();
+    addPicker.editableAddressTwoLineAddress().click({ force: true });
+    addPicker.containerStreet().clear();
+    addPicker.containerStreet().type("2100 Markham Road");
+    addPicker.containerOverlayBackdrop().click({ force: true });
     cy.wait(2000);
     addPicker
-      .ContainerTwoSaveChangeButton()
+      .containerTwoReviewChanges()
       .should("have.text", "Review Changes")
       .click();
-    addPicker.Container().should("be.visible");
+    addPicker.container().should("be.visible");
   });
 });
